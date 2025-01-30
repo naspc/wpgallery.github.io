@@ -1,0 +1,370 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,body {
+  width: 100vw;
+  height: 1000vh;
+  font-family: 'Courier New', Courier, monospace;
+  background: black;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+
+}
+
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.1s ease-out ;
+}
+
+p {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+}
+
+nav, footer {
+  position: fixed;
+  width: 100%;
+  padding:2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav {
+  top:0;
+}
+
+footer {
+  bottom: 0;
+}
+
+.slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  width: calc(100% * var(--cards, 20)); /* Based on number of cards */
+}
+
+
+.card {
+  width:450px;
+  flex: 0 0 auto;
+  height: 750px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+/* Gallery mode styles */
+
+
+/* Modified gallery view styles */
+.slider.gallery-view {
+  position: relative !important; /* Override fixed positioning */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: 100% !important; /* Reset width */
+  height: auto !important; /* Allow content height */
+  gap: 15px;
+  padding: 20px;
+  transform: none !important; /* Remove slideshow transforms */
+}
+
+/* Adjust card sizing in gallery view */
+.slider.gallery-view .card {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3/4; /* Maintain original比例 */
+  transform: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .slider.gallery-view {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .slider.gallery-view {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+/* Updated Download Button Styles */
+.Btn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent; /* Changed to transparent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  transition-duration: .3s;
+  box-shadow: none; /* Removed shadow */
+}
+
+.svgIcon {
+  fill: rgb(255, 255, 255); /* Keep the icon color white */
+  width: 20px;
+  height: 20px;
+}
+
+.icon2 {
+  width: 18px;
+  height: 5px;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  border-left: 2px solid rgb(255, 255, 255);
+  border-right: 2px solid rgb(255, 255, 255);
+}
+
+.tooltip {
+  position: absolute;
+  right: -90px;
+  opacity: 0;
+  background-color: rgba(12, 12, 12, 0.8); /* Slightly visible background for tooltip */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: .2s;
+  pointer-events: none;
+  letter-spacing: 0.5px;
+}
+
+.tooltip::before {
+  position: absolute;
+  content: "";
+  width: 7px;
+  height: 7px;
+  background-color: rgba(12, 12, 12, 0.8); /* Match tooltip background */
+  transform: rotate(45deg);
+  left: -5%;
+  transition-duration: .3s;
+}
+
+.Btn:hover .tooltip {
+  opacity: 1;
+  transition-duration: .3s;
+}
+
+.Btn:hover {
+  background-color: transparent; /* Keep background transparent on hover */
+  transition-duration: .3s;
+}
+
+.Btn:hover .icon2 {
+  border-bottom: 2px solid rgb(235, 235, 235);
+  border-left: 2px solid rgb(235, 235, 235);
+  border-right: 2px solid rgb(235, 235, 235);
+}
+
+.Btn:hover .svgIcon {
+  fill: rgb(255, 255, 255);
+  animation: slide-in-top 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+/* Loading screen styles */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 1s ease;
+}
+
+.glitch {
+  position: relative;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  letter-spacing: 5px;
+  z-index: 1;
+  animation: shift 1s ease-in-out infinite alternate;
+}
+
+.glitch:before,
+.glitch:after {
+  display: block;
+  content: attr(data-glitch);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.glitch:before {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: black;
+  z-index: -1;
+}
+
+.glitch:after {
+  animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: rgb(121, 82, 152);
+  z-index: -2;
+}
+
+.loader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes shift {
+  0%,
+  40%,
+  44%,
+  58%,
+  61%,
+  65%,
+  69%,
+  73%,
+  100% {
+    transform: skewX(0deg);
+  }
+
+  41% {
+    transform: skewX(10deg);
+  }
+
+  42% {
+    transform: skewX(-10deg);
+  }
+
+  59% {
+    transform: skewX(40deg) skewY(10deg);
+  }
+
+  60% {
+    transform: skewX(-40deg) skewY(-10deg);
+  }
+
+  63% {
+    transform: skewX(10deg) skewY(-5deg);
+  }
+
+  70% {
+    transform: skewX(-50deg) skewY(-20deg);
+  }
+
+  71% {
+    transform: skewX(10deg) skewY(-10deg);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile-specific styles */
+  .slider {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    display: flex;
+    padding: 0 5vw; /* Add horizontal padding */
+    box-sizing: border-box;
+  }
+  
+  .card {
+    scroll-snap-align: center; /* Changed from start to center */
+    flex: 0 0 90vw;
+    margin: 0 2.5vw; /* Reduced margin to account for container padding */
+    height: 525px;
+    width: 170px;
+    transform-origin: center; /* Ensure scaling happens from center */
+  }
+
+  /* Add empty pseudo-elements to center first/last cards */
+  .slider::before,
+  .slider::after {
+    content: '';
+    flex: 0 0 2.5vw;
+  }
+  
+  /* Hide scrollbar */
+  .slider::-webkit-scrollbar {
+    display: none;
+  }
+  
+  body {
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+}
+
+.auto-type-header, .auto-type-subheader {
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0.2rem 0;
+  z-index: 10000;
+}
+
+.auto-type-subheader {
+  font-size: 0.9rem;
+  color: #ffffff;
+  z-index: 10000;
+}
