@@ -1,0 +1,46 @@
+# _config.yml
+
+# Site settings
+title: Wallpaper Gallery
+description: A collection of beautiful wallpapers.
+baseurl: "" # the subpath of your site, e.g., /blog
+url: "https://naspc.github.io/wpgallery.github.io" # the base hostname & protocol for your site
+
+# Build settings
+theme: jekyll-theme-primer
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+  - jekyll-paginate
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
+
+# GitHub Pages settings
+github:
+  repository: naspc/wpgallery.github.io
+
+# Sass settings
+sass:
+  sass_dir: assets/css
+  style: compressed
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Exclude files from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+  - package.json
+  - package-lock.json
