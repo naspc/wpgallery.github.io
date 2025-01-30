@@ -1,3 +1,5 @@
+
+
 const slider = document.querySelector(".slider");
 const cards = document.querySelectorAll(".card");
 const ease = 0.1;
@@ -136,3 +138,6 @@ Promise.all([
     }, 1000); // Match this duration with your CSS transition time
   }
 })});
+
+
+
