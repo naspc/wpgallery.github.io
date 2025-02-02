@@ -162,16 +162,63 @@ if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   });
 
   window.addEventListener("load", animate);
-// Modify the mobile initialization block
+// Replace mobile initialization block with:
 } else {
-  slider.style.transform = 'none';
-  // Disable scale updates on mobile
-  cards.forEach(card => {
-    card.style.transform = 'none';
-    card.querySelector("img").style.transform = 'none';
+  let isDragging = false;
+  let startX = 0;
+  let momentum = 0;
+  const decay = 0.92;
+  let lastTime = 0;
+  let targetScroll = 0;
+
+  function mobileAnimate() {
+    if (!isDragging) {
+      targetScroll += momentum;
+      momentum *= decay;
+      
+      if (Math.abs(momentum) < 0.1) momentum = 0;
+      
+      targetScroll = Math.max(
+        -(slider.scrollWidth - window.innerWidth), 
+        Math.min(targetScroll, 0)
+      );
+    }
+
+    currentX += (targetScroll - currentX) * 0.2;
+    slider.style.transform = `translate3d(${currentX}px,0,0)`;
+    updateScales();
+    requestAnimationFrame(mobileAnimate);
+  }
+
+  slider.addEventListener('touchstart', e => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    momentum = 0;
+    lastTime = Date.now();
+  }, { passive: true });
+
+  slider.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const x = e.touches[0].clientX;
+    const delta = x - startX;
+    const now = Date.now();
+    const dt = now - lastTime;
+    
+    momentum = (delta * 1000) / dt; // px/sec
+    targetScroll += delta;
+    startX = x;
+    lastTime = now;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', () => {
+    isDragging = false;
+    targetScroll = Math.max(
+      -(slider.scrollWidth - window.innerWidth), 
+      Math.min(targetScroll, 0)
+    );
   });
-  window.addEventListener('resize', () => {
-    slider.scrollTo(0, 0);
-  });
+
+  // Start animation loop
+  mobileAnimate();
+  updateScales();
 }
-// Remove conflicting grid media queries from CSS

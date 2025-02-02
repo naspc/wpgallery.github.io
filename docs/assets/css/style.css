@@ -46,6 +46,7 @@ footer {
   bottom: 0;
 }
 
+
 .slider {
   position: fixed;
   top: 0;
@@ -57,6 +58,7 @@ footer {
   opacity: 0;
   transition: opacity 0.5s ease;
   width: calc(100% * var(--cards, 20)); /* Based on number of cards */
+  
 }
 
 
@@ -306,61 +308,23 @@ footer {
     transform: skewX(10deg) skewY(-10deg);
   }
 }
-
+/* Add to mobile media query */
 @media (hover: none) and (pointer: coarse) {
-  /* Improved mobile styles */
   .slider {
+    overflow: visible;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    display: flex;
-    padding: 0 5vw;
-    gap: 5vw; /* Replace margins with gap for consistent spacing */
-    box-sizing: border-box;
-    touch-action: pan-x;
-    scroll-padding: 0 5vw; /* Add scroll padding for better snap alignment */
-    scrollbar-width: none; /* For Firefox */
   }
-
-  .slider::before,
-  .slider::after {
-    content: '';
-    flex: 0 0 2.5vw; /* Add buffers for start/end scrolling */
-  }
-
+  
   .card {
-    scroll-snap-align: start; /* Better for mobile scrolling */
-    flex: 0 0 90vw;
-    height: 525px;
-    width: 80vw;
-    transform: scale(1);
-    transition: transform 0.2s ease-in-out;
-    scroll-snap-stop: always; /* Force stop on each card */
+    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+                filter 0.3s ease;
+    will-change: transform;
   }
 
-  /* Active state for better feedback */
-  .card:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease;
-  }
-
-  .slider::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Improve scroll momentum */
-  @supports (-webkit-overflow-scrolling: touch) {
-    .slider {
-      overflow-x: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-}
-
-/* Desktop styles remain unchanged */
-@media (hover: hover) and (pointer: fine) {
-  .card {
-    transform-origin: center;
+  .card img {
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 
