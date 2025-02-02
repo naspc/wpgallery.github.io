@@ -138,6 +138,3 @@ Promise.all([
     }, 1000); // Match this duration with your CSS transition time
   }
 })});
-
-
-

@@ -325,34 +325,32 @@ footer {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     display: flex;
-    padding: 0 5vw; /* Add horizontal padding */
+    padding: 0 5vw;
     box-sizing: border-box;
+    touch-action: pan-x; /* Enable horizontal swipe */
   }
   
   .card {
-    scroll-snap-align: center; /* Changed from start to center */
+    scroll-snap-align: center;
     flex: 0 0 90vw;
-    margin: 0 2.5vw; /* Reduced margin to account for container padding */
+    margin: 0 2.5vw;
     height: 525px;
     width: 170px;
-    transform-origin: center; /* Ensure scaling happens from center */
+    /* Simplify mobile scaling */
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
   }
 
-  /* Add empty pseudo-elements to center first/last cards */
-  .slider::before,
-  .slider::after {
-    content: '';
-    flex: 0 0 2.5vw;
-  }
-  
-  /* Hide scrollbar */
-  .slider::-webkit-scrollbar {
-    display: none;
-  }
-  
-  body {
-    overflow: hidden;
-    touch-action: pan-y;
+  .card:first-child { margin-left: 5vw; }
+  .card:last-child { margin-right: 5vw; }
+
+  .slider::-webkit-scrollbar { display: none; }
+}
+
+/* Desktop-only scaling effects */
+@media (hover: hover) and (pointer: fine) {
+  .card {
+    transform-origin: center;
   }
 }
 
