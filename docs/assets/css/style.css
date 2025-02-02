@@ -92,18 +92,7 @@ footer {
   transform: none !important;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .slider.gallery-view {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-}
 
-@media (max-width: 480px) {
-  .slider.gallery-view {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  }
-}
 /* Updated Download Button Styles */
 .Btn {
   width: 50px;
@@ -319,56 +308,51 @@ footer {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  /* Improved mobile styles */
+  /* Improved mobile centering */
   .slider {
     -webkit-overflow-scrolling: touch;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     display: flex;
     padding: 0 5vw;
-    gap: 5vw; /* Replace margins with gap for consistent spacing */
+    gap: 5vw;
     box-sizing: border-box;
     touch-action: pan-x;
-    scroll-padding: 0 5vw; /* Add scroll padding for better snap alignment */
-    scrollbar-width: none; /* For Firefox */
+    scroll-padding: 0 5vw; /* Center alignment padding */
+    scrollbar-width: none;
+    align-items: center; /* Vertical centering */
   }
 
   .slider::before,
   .slider::after {
     content: '';
-    flex: 0 0 2.5vw; /* Add buffers for start/end scrolling */
+    flex: 0 0 5vw; /* Increased buffer for edge centering */
   }
 
   .card {
-    scroll-snap-align: start; /* Better for mobile scrolling */
+    scroll-snap-align: center; /* Center snapping */
     flex: 0 0 90vw;
     height: 525px;
-    width: 80vw;
+    width: 90vw; /* Match flex-basis */
     transform: scale(1);
     transition: transform 0.2s ease-in-out;
-    scroll-snap-stop: always; /* Force stop on each card */
+    scroll-snap-stop: always;
+    display: flex; /* For image centering */
+    justify-content: center;
+    align-items: center;
   }
 
-  /* Active state for better feedback */
-  .card:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease;
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio */
+    display: block;
   }
 
-  .slider::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Improve scroll momentum */
-  @supports (-webkit-overflow-scrolling: touch) {
-    .slider {
-      overflow-x: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
+  /* Remove conflicting media queries */
 }
 
-/* Desktop styles remain unchanged */
+/* Desktop-only styles */
 @media (hover: hover) and (pointer: fine) {
   .card {
     transform-origin: center;

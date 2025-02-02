@@ -53,17 +53,17 @@ window.addEventListener("scroll", () => {
 // Initialization
 window.addEventListener("load", () => {
   updateScales();
-  animate();
+ // animate();
   slider.style.opacity = "1"; // Fade-in effect
 });
 
-// Handle window resize
+// Replace the existing resize handler with:
 window.addEventListener("resize", () => {
-  updateScales();
-  currentX = targetX = -window.scrollY / (document.body.scrollHeight - window.innerHeight) * (slider.scrollWidth - window.innerWidth);
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    updateScales();
+    currentX = targetX = -window.scrollY / (document.body.scrollHeight - window.innerHeight) * (slider.scrollWidth - window.innerWidth);
+  }
 });
-
-
 
 // Add event listeners to all download buttons
 const downloadButtons = document.querySelectorAll(".Btn");
@@ -138,3 +138,32 @@ Promise.all([
     }, 1000); // Match this duration with your CSS transition time
   }
 })});
+
+// Only run parallax effect on desktop
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const animate = () => {
+    currentX += (targetX - currentX) * ease;
+    slider.style.transform = `translateX(${currentX}px)`;
+    updateScales();
+    requestAnimationFrame(animate);
+  };
+
+  window.addEventListener("scroll", () => {
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    targetX = -window.scrollY / maxScroll * (slider.scrollWidth - window.innerWidth);
+  });
+
+  window.addEventListener("load", animate);
+// Modify the mobile initialization block
+} else {
+  slider.style.transform = 'none';
+  // Disable scale updates on mobile
+  cards.forEach(card => {
+    card.style.transform = 'none';
+    card.querySelector("img").style.transform = 'none';
+  });
+  window.addEventListener('resize', () => {
+    slider.scrollTo(0, 0);
+  });
+}
+// Remove conflicting grid media queries from CSS
