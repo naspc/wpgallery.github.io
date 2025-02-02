@@ -318,36 +318,55 @@ footer {
 }
 
 @media (hover: none) and (pointer: coarse) {
-  /* Mobile-specific styles */
+  /* Improved mobile styles */
   .slider {
     -webkit-overflow-scrolling: touch;
-    overflow-x: auto;
+    overflow-x: scroll;
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
     display: flex;
     padding: 0 5vw;
+    gap: 5vw; /* Replace margins with gap for consistent spacing */
     box-sizing: border-box;
-    touch-action: pan-x; /* Enable horizontal swipe */
+    touch-action: pan-x;
+    scroll-padding: 0 5vw; /* Add scroll padding for better snap alignment */
+    scrollbar-width: none; /* For Firefox */
   }
-  
+
+  .slider::before,
+  .slider::after {
+    content: '';
+    flex: 0 0 2.5vw; /* Add buffers for start/end scrolling */
+  }
+
   .card {
-    scroll-snap-align: center;
+    scroll-snap-align: start; /* Better for mobile scrolling */
     flex: 0 0 90vw;
-    margin: 0 2.5vw;
     height: 525px;
-    width: 170px;
-    /* Simplify mobile scaling */
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
+    transform: scale(1);
+    transition: transform 0.2s ease-in-out;
+    scroll-snap-stop: always; /* Force stop on each card */
   }
 
-  .card:first-child { margin-left: 5vw; }
-  .card:last-child { margin-right: 5vw; }
+  /* Active state for better feedback */
+  .card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
 
-  .slider::-webkit-scrollbar { display: none; }
+  .slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Improve scroll momentum */
+  @supports (-webkit-overflow-scrolling: touch) {
+    .slider {
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
 }
 
-/* Desktop-only scaling effects */
+/* Desktop styles remain unchanged */
 @media (hover: hover) and (pointer: fine) {
   .card {
     transform-origin: center;
