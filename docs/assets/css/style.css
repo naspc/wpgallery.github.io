@@ -319,6 +319,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px;
   }
 
   .card {
@@ -326,12 +327,17 @@ footer {
                 filter 0.3s ease;
     will-change: transform;
     display: inline-block;
-    margin: 0 10px;
+    margin: 0 5px;
+    width: 80vw; /* Reduce width for smaller display */
+    max-width: 300px;
   }
 
   .card img {
     transform: translateZ(0);
     backface-visibility: hidden;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
   }
 
   body {
@@ -342,8 +348,10 @@ footer {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    padding: 20px;
   }
 }
+
 
 .auto-type-header, .auto-type-subheader {
   font-size: 0.9rem;
