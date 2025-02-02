@@ -66,6 +66,7 @@ footer {
   height: 750px;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
+  object-fit: cover;
 }
 
 /* Gallery mode styles */
@@ -342,6 +343,7 @@ footer {
     scroll-snap-align: start; /* Better for mobile scrolling */
     flex: 0 0 90vw;
     height: 525px;
+    width: 80vw;
     transform: scale(1);
     transition: transform 0.2s ease-in-out;
     scroll-snap-stop: always; /* Force stop on each card */
