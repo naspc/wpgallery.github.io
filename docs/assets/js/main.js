@@ -44,16 +44,24 @@ const animate = () => {
   requestAnimationFrame(animate);
 };
 
-// Scroll handler
-window.addEventListener("scroll", () => {
-  const maxScroll = document.body.scrollHeight - window.innerHeight;
-  targetX = -window.scrollY / maxScroll * (slider.scrollWidth - window.innerWidth);
-});
+// Replace existing scroll handler with
+let lastScroll = 0;
+const scrollThreshold = 100;
 
+function handleScroll() {
+  const now = Date.now();
+  if (now - lastScroll < 16) return; // ~60fps
+  
+  // Your optimized scroll logic
+  lastScroll = now;
+  requestAnimationFrame(updateScales);
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
 // Initialization
 window.addEventListener("load", () => {
   updateScales();
- // animate();
+  animate();
   slider.style.opacity = "1"; // Fade-in effect
 });
 
