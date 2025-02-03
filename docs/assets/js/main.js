@@ -4,7 +4,7 @@ const ease = 0.1;
 let currentX = 0;
 let targetX = 0;
 
-// Scale calculation logic
+// Your existing code...
 const getScaleFactor = (position, viewportWidth) => {
   const quarterWidth = viewportWidth / 4;
   position = Math.max(0, Math.min(position, viewportWidth));
@@ -17,7 +17,6 @@ const getScaleFactor = (position, viewportWidth) => {
 
 const lerp = (a, b, t) => a + (b - a) * Math.min(Math.max(t, 0), 1);
 
-// Update card scales
 const updateScales = () => {
   const vw = window.innerWidth;
   cards.forEach(card => {
@@ -28,7 +27,6 @@ const updateScales = () => {
   });
 };
 
-// Animation loop
 const animate = () => {
   currentX += (targetX - currentX) * ease;
   slider.style.transform = `translateX(${currentX}px)`;
@@ -36,13 +34,11 @@ const animate = () => {
   requestAnimationFrame(animate);
 };
 
-// Scroll handler
 window.addEventListener("scroll", () => {
   const maxScroll = document.body.scrollHeight - window.innerHeight;
   targetX = -window.scrollY / maxScroll * (slider.scrollWidth - window.innerWidth);
 }, { passive: true });
 
-// Mobile touch handling
 let touchStartX = 0;
 let isDragging = false;
 
@@ -54,13 +50,40 @@ slider.addEventListener('touchstart', e => {
 slider.addEventListener('touchmove', e => {
   if (!isDragging) return;
   const delta = e.touches[0].clientX - touchStartX;
-  targetX += delta * 1.5; // Adjust sensitivity
+  targetX += delta * 1.5;
   touchStartX = e.touches[0].clientX;
 }, { passive: true });
 
 slider.addEventListener('touchend', () => {
   isDragging = false;
 });
+
+// Add the new mobile-specific function here
+const animateMobile = () => {
+  if (!isMobile) return;
+
+  const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(cards[0]).marginRight) * 2;
+  const maxScroll = slider.scrollWidth - window.innerWidth;
+  const centerOffset = (window.innerWidth - cardWidth) / 2;
+
+  const nearestCardIndex = Math.round(-currentX / cardWidth);
+  targetX = -nearestCardIndex * cardWidth + centerOffset;
+
+  targetX = Math.max(-maxScroll, Math.min(targetX, 0));
+
+  currentX += (targetX - currentX) * ease;
+  slider.style.transform = `translateX(${currentX}px)`;
+
+  requestAnimationFrame(animateMobile);
+};
+
+const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+if (isMobile) {
+  animateMobile();
+} else {
+  animate();
+}
 
 // Download button logic
 const downloadButtons = document.querySelectorAll(".Btn");
