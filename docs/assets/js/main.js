@@ -105,6 +105,16 @@ downloadButtons.forEach((button) => {
     }
   });
 });
+//Current Date
+const date = new Date();
+
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+
+// This arrangement can be altered based on how we want the date's format to appear.
+let currentDate = `${day}-${month}-${year}`;
+
 
 // Loading screen and text animations
 window.addEventListener('load', () => {
@@ -126,14 +136,14 @@ window.addEventListener('load', () => {
         loader.remove();
         
         new Typed('.auto-type-header', {
-          strings: ['wallpaper gallery', ''],
+          strings: ['wallpaper gallery by nassir', `${currentDate}`],
           typeSpeed: 80,
           backSpeed: 50,
           backDelay: 1500,
           showCursor: false,
           onComplete: function() {
             new Typed('.auto-type-subheader', {
-              strings: ['a collection of images ive gathered, enjoy', ''],
+              strings: ['a collection of images ive gathered along my travels (on the internet)', 'enjoy'],
               typeSpeed: 60,
               backSpeed: 40,
               backDelay: 1500,
