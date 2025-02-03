@@ -312,43 +312,51 @@ footer {
 @media (hover: none) and (pointer: coarse) {
   .slider {
     overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    width: 100%;
+    padding: 0;
+    scroll-behavior: smooth;
   }
 
   .card {
-    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
-                filter 0.3s ease;
-    will-change: transform;
-    display: inline-block;
-    margin: 0 5px;
-    width: 80vw; /* Reduce width for smaller display */
-    max-width: 300px;
+    scroll-snap-align: center;
+    flex: 0 0 100vw;
+    width: 100vw;
+    max-width: none;
+    height: 90vh;
+    margin: 0;
+    transform: none !important;
+    transition: none !important;
   }
 
   .card img {
-    transform: translateZ(0);
-    backface-visibility: hidden;
     width: 100%;
-    height: auto;
-    border-radius: 10px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    transform: none !important;
   }
 
   body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 20px;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Disable JS scaling effects */
+  .card, .card img {
+    transition: none !important;
+    filter: none !important;
+  }
+
+  /* Optional: Add scroll padding to account for header/footer */
+  @media (max-height: 700px) {
+    .slider {
+      scroll-padding: 15vh 0;
+    }
   }
 }
 
