@@ -72,9 +72,6 @@ footer {
   border-radius: 5%;
 }
 
-/* Gallery mode styles */
-
-
 /* Modified gallery view styles */
 .slider.gallery-view {
   position: relative !important; /* Override fixed positioning */
