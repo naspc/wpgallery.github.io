@@ -136,14 +136,14 @@ window.addEventListener('load', () => {
         loader.remove();
         
         new Typed('.auto-type-header', {
-          strings: ['wallpaper gallery by nassir', `${currentDate}`],
+          strings: ['wallpaper gallery', `${currentDate}`],
           typeSpeed: 80,
           backSpeed: 50,
           backDelay: 1500,
           showCursor: false,
           onComplete: function() {
             new Typed('.auto-type-subheader', {
-              strings: ['a collection of images ive gathered along my travels (on the internet)', 'enjoy'],
+              strings: ['by nas', 'enjoy'],
               typeSpeed: 60,
               backSpeed: 40,
               backDelay: 1500,
