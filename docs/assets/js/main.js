@@ -4,7 +4,6 @@ const ease = 0.1;
 let currentX = 0;
 let targetX = 0;
 
-// Your existing code...
 const getScaleFactor = (position, viewportWidth) => {
   const quarterWidth = viewportWidth / 4;
   position = Math.max(0, Math.min(position, viewportWidth));
