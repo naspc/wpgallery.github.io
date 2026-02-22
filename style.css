@@ -1,25 +1,26 @@
-*{
+/* style.css - Complete with proper docs-based naming */
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html,body {
-  width: 100vw;
-  height: 1000vh;
+html, body {
+  width: 100%;
+  height: 100%;
   font-family: 'Courier New', Courier, monospace;
   background: black;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-
+  overflow: hidden;
 }
-
 
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.1s ease-out ;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 p {
@@ -27,166 +28,230 @@ p {
   font-size: 13px;
   font-weight: 500;
   color: white;
+  letter-spacing: 0.5px;
 }
 
-nav, footer {
-  position: fixed;
-  width: 100%;
-  padding:2em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
+/* Navigation */
 nav {
-  top:0;
-}
-
-footer {
-  bottom: 0;
-}
-
-
-.slider {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  padding: 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.auto-type-header, .auto-type-subheader {
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0.2rem 0;
+  color: white;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* ===== SLIDER STYLES - Following docs exactly ===== */
+
+/* Main slider container - using data-slider as required by docs */
+[data-slider] {
+  position: fixed;
+  top: 20%;
+  left: 0;
+  width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: hidden;  /* CRITICAL: must be hidden */
+  cursor: grab;
+  will-change: transform;
   opacity: 0;
   transition: opacity 0.5s ease;
-  width: calc(100% * var(--cards, 20)); /* Based on number of cards */
-  
+  z-index: 1;
+  touch-action: pan-y pinch-zoom;
 }
 
+[data-slider]:active {
+  cursor: grabbing;
+}
 
-.card {
-  width:420px;
-  flex: 0 0 auto;
-  height: 650px;
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+/* Slide elements - direct children of [data-slider] */
+[data-slider] > * {
+  flex: 0 0 auto;  /* Don't grow, don't shrink, auto basis */
+  width: min(420px, 80vw);  /* Slide width */
+  height: min(650px, 80vh); /* Slide height */
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+[data-slider] > *:last-child {
+  padding-right: 0;
+}
+
+/* Utility classes from the docs */
+.relative {
+  position: relative;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Parallax layer */
+.parallax-layer {
+  position: relative;
   overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Card content - now inside parallax layer */
+.card-content {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure the card itself has proper dimensions */
+.card {
+  flex: 0 0 auto;
+  width: min(420px, 80vw);
+  height: min(650px, 80vh);
+  padding-right: 30px;
+}
+
+.card:last-child {
+  padding-right: 0;
+}
+
+/* Rest of your button styles remain the same */
+.card-content:hover {
+  box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.8);
+}
+
+.card-content img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 5%;
+  transition: transform 0.3s ease;
 }
 
-/* Modified gallery view styles */
-.slider.gallery-view {
-  position: relative !important; /* Override fixed positioning */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  width: 100% !important; /* Reset width */
-  height: auto !important; /* Allow content height */
-  gap: 15px;
-  padding: 20px;
-  transform: none !important; /* Remove slideshow transforms */
+.card-content:hover img {
+  transform: scale(1.05);
 }
 
-/* Adjust card sizing in gallery view */
-.slider.gallery-view .card {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 3/4; /* Maintain original比例 */
-  transform: none !important;
-}
-
-
-/* Updated Download Button Styles */
+/* ===== DOWNLOAD BUTTON ===== */
 .Btn {
   width: 50px;
   height: 50px;
   border: none;
   border-radius: 50%;
-  background-color: transparent; /* Changed to transparent */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  transition-duration: .3s;
-  box-shadow: none; /* Removed shadow */
+  bottom: 20px;
+  right: 20px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.Btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
 }
 
 .svgIcon {
-  fill: rgb(255, 255, 255); /* Keep the icon color white */
+  fill: white;
   width: 20px;
   height: 20px;
+  transition: transform 0.3s ease;
 }
 
 .icon2 {
   width: 18px;
   height: 5px;
-  border-bottom: 2px solid rgb(255, 255, 255);
-  border-left: 2px solid rgb(255, 255, 255);
-  border-right: 2px solid rgb(255, 255, 255);
+  border-bottom: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .tooltip {
   position: absolute;
-  right: -90px;
+  right: 60px;
   opacity: 0;
-  background-color: rgba(12, 12, 12, 0.8); /* Slightly visible background for tooltip */
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
   color: white;
-  padding: 4px 8px;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition-duration: .2s;
+  transition: opacity 0.3s ease;
   pointer-events: none;
   letter-spacing: 0.5px;
+  font-size: 14px;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .tooltip::before {
   position: absolute;
   content: "";
-  width: 7px;
-  height: 7px;
-  background-color: rgba(12, 12, 12, 0.8); /* Match tooltip background */
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.8);
   transform: rotate(45deg);
-  left: -5%;
-  transition-duration: .3s;
+  right: -4px;
+  left: auto;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .Btn:hover .tooltip {
   opacity: 1;
-  transition-duration: .3s;
-}
-
-.Btn:hover {
-  background-color: transparent; /* Keep background transparent on hover */
-  transition-duration: .3s;
-}
-
-.Btn:hover .icon2 {
-  border-bottom: 2px solid rgb(235, 235, 235);
-  border-left: 2px solid rgb(235, 235, 235);
-  border-right: 2px solid rgb(235, 235, 235);
 }
 
 .Btn:hover .svgIcon {
-  fill: rgb(255, 255, 255);
   animation: slide-in-top 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
-@keyframes slide-in-top {
-  0% {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
+.Btn:hover .icon2 {
+  opacity: 1;
 }
 
-/* Loading screen styles */
+@keyframes slide-in-top {
+  0% { transform: translateY(-10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== LOADING SCREEN ===== */
 .loader {
   position: fixed;
   top: 0;
@@ -203,12 +268,10 @@ footer {
 
 .glitch {
   position: relative;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
   font-weight: 700;
-  line-height: 1.2;
   color: #fff;
   letter-spacing: 5px;
-  z-index: 1;
   animation: shift 1s ease-in-out infinite alternate;
 }
 
@@ -240,129 +303,157 @@ footer {
 }
 
 @keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-
-  20% {
-    transform: translate(-3px, 3px);
-  }
-
-  40% {
-    transform: translate(-3px, -3px);
-  }
-
-  60% {
-    transform: translate(3px, 3px);
-  }
-
-  80% {
-    transform: translate(3px, -3px);
-  }
-
-  to {
-    transform: translate(0);
-  }
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  to { transform: translate(0); }
 }
 
 @keyframes shift {
-  0%,
-  40%,
-  44%,
-  58%,
-  61%,
-  65%,
-  69%,
-  73%,
-  100% {
-    transform: skewX(0deg);
-  }
+  0%,40%,44%,58%,61%,65%,69%,73%,100% { transform: skewX(0deg); }
+  41% { transform: skewX(10deg); }
+  42% { transform: skewX(-10deg); }
+  59% { transform: skewX(40deg) skewY(10deg); }
+  60% { transform: skewX(-40deg) skewY(-10deg); }
+  63% { transform: skewX(10deg) skewY(-5deg); }
+  70% { transform: skewX(-50deg) skewY(-20deg); }
+  71% { transform: skewX(10deg) skewY(-10deg); }
+}
 
-  41% {
-    transform: skewX(10deg);
-  }
-
-  42% {
-    transform: skewX(-10deg);
-  }
-
-  59% {
-    transform: skewX(40deg) skewY(10deg);
-  }
-
-  60% {
-    transform: skewX(-40deg) skewY(-10deg);
-  }
-
-  63% {
-    transform: skewX(10deg) skewY(-5deg);
-  }
-
-  70% {
-    transform: skewX(-50deg) skewY(-20deg);
-  }
-
-  71% {
-    transform: skewX(10deg) skewY(-10deg);
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  [data-slider] > * {
+    width: 380px;
+    height: 580px;
+    padding-right: 25px;
   }
 }
 
+@media (max-width: 768px) {
+  nav {
+    padding: 1.5em;
+  }
+  
+  [data-slider] > * {
+    width: 300px;
+    height: 450px;
+    padding-right: 20px;
+  }
+  
+  .card-content {
+    border-radius: 15px;
+  }
+  
+  .Btn {
+    width: 40px;
+    height: 40px;
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .svgIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .tooltip {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  [data-slider] > * {
+    width: 260px;
+    height: 390px;
+    padding-right: 15px;
+  }
+  
+  nav {
+    padding: 1em;
+  }
+  
+  .auto-type-header, .auto-type-subheader {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
 @media (hover: none) and (pointer: coarse) {
-  .slider {
-    -webkit-overflow-scrolling: touch;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    display: flex;
-    padding: 0;
-    box-sizing: border-box;
-    width: 100vw;
-    margin: 0;
+  [data-slider] {
+    cursor: default;
   }
   
-  .card {
-    scroll-snap-align: center;
-    flex: 0 0 85vw;
-    margin: 0;
-    height: 70vh;
-    width: 85vw;
-    transform-origin: center;
-    box-sizing: border-box;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  /* Center alignment pseudo-elements */
-  .slider::before,
-  .slider::after {
-    content: '';
-    flex: 0 0 calc((100vw - 85vw) / 2);
-    min-width: calc((100vw - 85vw) / 2);
+  [data-slider]:active {
+    cursor: default;
   }
   
-  .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
+  .Btn {
+    width: 44px;
+    height: 44px;
   }
-
-  body {
-    overflow-x: hidden;
-    touch-action: pan-y;
+  
+  .tooltip {
+    display: none;
+  }
+  
+  .card-content:hover {
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-content:hover img {
+    transform: none;
   }
 }
 
-.auto-type-header, .auto-type-subheader {
-  font-size: 0.9rem;
-  text-align: center;
-  margin: 0.2rem 0;
-  z-index: 10000;
+/* ===== UTILITY CLASSES FROM DOCS ===== */
+.flex {
+  display: flex;
 }
 
-.auto-type-subheader {
-  font-size: 0.9rem;
-  color: #ffffff;
-  z-index: 10000;
+.overflow-x-hidden {
+  overflow-x: hidden;
 }
+
+.shrink-0 {
+  flex-shrink: 0;
+}
+
+.relative {
+  position: relative;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Utility classes from the docs */
+.relative {
+  position: relative;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Parallax layer */
+.parallax-layer {
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+
+
+/* Rest of your button styles remain the same */
